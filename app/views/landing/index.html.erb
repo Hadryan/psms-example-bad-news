@@ -1,0 +1,15 @@
+<h1>Get some bad news</h1>
+
+<% @promotional_texts.each do |country_name, locales| %>
+  <hr />
+  At <%= country_name %>:<br />
+  <table>
+    <tr>
+      <% locales.each do |lang, text| %>
+        <td><%= text %></td>
+      <% end %>
+    </tr>
+  </table>
+<% end %>
+
+<hr />

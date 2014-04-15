@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services_api_response version="2.0">
+  <status>
+    <code>0</code>
+    <message>OK</message>
+  </status>
+  <service id="f9482620cd62d78dcf834398bdd4139e">
+    <countries>
+      <country approved="false" code="EE" vat="20.00" name="Estonia">
+        <prices>
+          <price all_operators="true" amount="0.32" vat_included="true" currency="EUR">
+            <message_profile shortcode="1311" all_operators="true" keyword="TXT BADNEWS">
+              <operator code="Elisa" revenue="0.13" billing_type="MO" name="Elisa" default_billing_status="OK">
+                <codes>
+                  <code mcc="248" mnc="2"/>
+                </codes>
+              </operator>
+              <operator code="EMT" revenue="0.13" billing_type="MO" name="EMT" default_billing_status="OK">
+                <codes>
+                  <code mcc="248" mnc="1"/>
+                </codes>
+              </operator>
+              <operator code="Tele2" revenue="0.13" billing_type="MO" name="Tele2" default_billing_status="OK">
+                <codes>
+                  <code mcc="248" mnc="3"/>
+                  <code mcc="248" mnc="6"/>
+                </codes>
+              </operator>
+            </message_profile>
+          </price>
+        </prices>
+        <promotional_text>
+          <local>Hind: &#8364;0.32
+Klienditugi: +372 5 111 11 11 | bofh@example.com
+SMS-&#252;hendus: fortumo.ee</local>
+          <english>Price: &#8364;0.32
+Support: +372 5 111 11 11 | bofh@example.com
+Mobile Payment by fortumo.com</english>
+        </promotional_text>
+      </country>
+    </countries>
+  </service>
+</services_api_response>
