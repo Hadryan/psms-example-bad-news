@@ -8,6 +8,9 @@ describe 'Payment' do
     Rails.application
   end
 
+  let(:remote_addr)   { Payment::FORTUMO_SERVERS.sample }
+  let(:extra_headers) { {'REMOTE_ADDR' => remote_addr} }
+
   let(:request_params) do
     request_params_no_signature.merge(
       sig:  signature
@@ -29,7 +32,8 @@ describe 'Payment' do
       sender:       sender,
       service_id:   service_id,
       shortcode:    shortcode,
-      status:       status
+      status:       status,
+      test:         test
     }
   end
 
@@ -47,13 +51,14 @@ describe 'Payment' do
   let(:shortcode)     { '1311' }
   let(:signature)     { Payment.sign(request_params_no_signature) }
   let(:status)        { 'OK' }
+  let(:test)          { nil }
 
   let!(:a_news) { News.create!(body: 'Foo bar.') }
 
   context 'successful' do
     context 'Mobile-Originated' do
       it 'sends a News entiry' do
-        get '/api/payments/new', request_params
+        get '/api/payments/new', request_params, extra_headers
         expect(last_response.body).to eq(a_news.body)
       end
     end
@@ -63,19 +68,42 @@ describe 'Payment' do
       let(:status)       { 'pending' }
 
       it 'sends a News entiry' do
-        get '/api/payments/new', request_params
+        get '/api/payments/new', request_params, extra_headers
+        expect(last_response.body).to eq(a_news.body)
+      end
+    end
+
+    context 'in a test mode' do
+      let(:billing_type) { 'MO' }
+      let(:status)       { 'pending' }
+      let(:test)         { 'true' }
+
+      it 'sends a News entiry' do
+        get '/api/payments/new', request_params, extra_headers
         expect(last_response.body).to eq(a_news.body)
       end
     end
   end
 
   context 'has not valid request' do
-    let(:signature) { 'LOL!' }
+    context 'wrong signature' do
+      let(:signature) { 'LOL!' }
 
-    it 'returns no data' do
-      get '/api/payments/new', request_params
-      expect(last_response.status).to eq(404)
-      expect(last_response.body).to   eq('Error: Invalid signature')
+      it 'returns no data' do
+        get '/api/payments/new', request_params, extra_headers
+        expect(last_response.status).to eq(404)
+        expect(last_response.body).to   eq('Error: Invalid signature')
+      end
+    end
+
+    context 'wrong Fortumo server IP address' do
+      let(:remote_addr) { '1.2.3.4' }
+
+      it 'returns no data' do
+        get '/api/payments/new', request_params, extra_headers
+        expect(last_response.status).to eq(403)
+        expect(last_response.body).to   eq('Error: Access denied')
+      end
     end
   end
 
@@ -83,7 +111,7 @@ describe 'Payment' do
     let(:status) { 'failed' }
 
     it 'returns no data' do
-      get '/api/payments/new', request_params
+      get '/api/payments/new', request_params, extra_headers
       expect(last_response.status).to eq(402)
       expect(last_response.body).to   eq('Error: Payment failed')
     end
