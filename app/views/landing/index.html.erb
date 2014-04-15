@@ -2,12 +2,12 @@
 
 <% @countries.each do |country_name| %>
   <hr />
-  At <%= country_name %>:<br />
+  In <%= country_name %>:<br />
   Send "<%= @payment_details[country_name][:keyword] %>" to short number "<%= @payment_details[country_name][:shortcode] %>"
   <table>
     <tr>
       <% @promotional_texts[country_name].each do |lang, text| %>
-        <td><%= text %></td>
+        <td><%= raw text.gsub(/\n/, '<br />') %></td>
       <% end %>
     </tr>
   </table>
