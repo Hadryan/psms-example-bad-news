@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :api do
+  get 'payments/new'
+  end
+
   root 'landing#index'
 
   get 'landing/index'
