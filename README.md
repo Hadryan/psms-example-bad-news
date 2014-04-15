@@ -7,6 +7,8 @@ Uses [Mobile Payments API of Fortumo](http://developers.fortumo.com/mobile-payme
 
 ## Deploy
 
-Use Heroku
+### Using Heroku
 
 Set `PSMS_INFO_URL` to URL 'where you can download your service information and promotional texts' from Fortumo Dashboard (My Services > _Your Service_ > Setup)
+
+    heroku config:set PSMS_INFO_URL=https://api.fortumo.com/api/services/2/xxx.yyy.xml
