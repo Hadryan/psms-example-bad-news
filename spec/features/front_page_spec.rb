@@ -14,4 +14,10 @@ describe 'Front page' do
     expect(page).to have_content 'Support: +372 5 111 11 11 | bofh@example.com'
     expect(page).to have_content 'Price: €0.32'
   end
+
+  it 'has instructions where to send SMS' do
+    visit '/'
+    expect(page).to have_content 'TXT BADNEWS'
+    expect(page).to have_content '1311'
+  end
 end

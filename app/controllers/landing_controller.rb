@@ -1,5 +1,7 @@
 class LandingController < ApplicationController
   def index
+    @countries         = psms_info.country_names
+    @payment_details   = psms_info.payment_details
     @promotional_texts = psms_info.promotional_texts
   end
 

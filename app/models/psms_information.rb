@@ -1,5 +1,4 @@
 require 'open-uri'
-require 'nokogiri'
 
 ##
 # Class: PSMSInformation
@@ -25,7 +24,28 @@ class PSMSInformation
   #     }
   #   }
   def promotional_texts
-    @promotional_texts ||= extract_countries(@data.xpath('//services_api_response/service/countries/*'))
+    @promotional_texts ||= extract_promotional_texts.with_indifferent_access
+  end
+
+  # Returns Array.
+  #
+  # Example:
+  #   ['Estonia', 'Ukraine']
+  def country_names
+    @countries ||= countries.collect { |country| country['name'] }
+  end
+
+  # Returns Hash.
+  #
+  # Example:
+  #   {
+  #    "Estonia" => {
+  #      "shortcode" => "1234",
+  #        "keyword" => "TXT BADNEWS"
+  #    }
+  #  }
+  def payment_details
+    @payment_details ||= extract_payment_details.with_indifferent_access
   end
 
   private
@@ -33,20 +53,26 @@ class PSMSInformation
   # Initialize new instance
   # with URL to the PSMS information XML file.
   def initialize(xml_data)
-    @data = Nokogiri::XML.parse(xml_data)
+    @data = Hash.from_xml(xml_data)
   end
 
-  def extract_countries(countries)
+  def countries
+    @data['services_api_response']['service']['countries'].values
+  end
+
+  def extract_promotional_texts
     countries.inject({}) do |memo, country|
-      memo.merge!(
-        {
-          country['name'] => extract_languages(country.xpath('//promotional_text/*'))
-        }
-      )
+      memo.merge!({
+        country['name'] => country['promotional_text']
+      })
     end
   end
 
-  def extract_languages(langs)
-    langs.inject({}) {|memo, lang| memo.merge!({lang.name => lang.text}) }
+  def extract_payment_details
+    countries.inject({}) do |memo, country|
+      memo.merge!({
+        country['name'] => country['prices'].values.first['message_profile'].slice('shortcode', 'keyword')
+      })
+    end
   end
 end

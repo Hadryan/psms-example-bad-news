@@ -1,11 +1,12 @@
 <h1>Get some bad news</h1>
 
-<% @promotional_texts.each do |country_name, locales| %>
+<% @countries.each do |country_name| %>
   <hr />
   At <%= country_name %>:<br />
+  Send "<%= @payment_details[country_name][:keyword] %>" to short number "<%= @payment_details[country_name][:shortcode] %>"
   <table>
     <tr>
-      <% locales.each do |lang, text| %>
+      <% @promotional_texts[country_name].each do |lang, text| %>
         <td><%= text %></td>
       <% end %>
     </tr>
