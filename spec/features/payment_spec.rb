@@ -9,6 +9,13 @@ describe 'Payment' do
   end
 
   let(:request_params) do
+    request_params_no_signature.merge(
+      sig:  signature
+    )
+  end
+
+  # We need them to create 'sig'(nature)
+  let(:request_params_no_signature) do
     {
       billing_type: billing_type,
       country:      country,
@@ -22,7 +29,6 @@ describe 'Payment' do
       sender:       sender,
       service_id:   service_id,
       shortcode:    shortcode,
-      sig:          signature,
       status:       status
     }
   end
@@ -37,9 +43,9 @@ describe 'Payment' do
   let(:price)         { '0.32' }
   let(:price_wo_vat)  { '0.27' }
   let(:sender)        { '37256342863' }
-  let(:service_id)    { '515dec9c70c2812e57cbcf9f9518f905' }
+  let(:service_id)    { '67324526784536747635672356723563' }
   let(:shortcode)     { '1311' }
-  let(:signature)     { '0e289d524d92cc60f0ec85846001cd25' }
+  let(:signature)     { Payment.sign(request_params_no_signature) }
   let(:status)        { 'OK' }
 
   let!(:a_news) { News.create!(body: 'Foo bar.') }
@@ -64,8 +70,12 @@ describe 'Payment' do
   end
 
   context 'has not valid request' do
-    xit 'returns no data' do
-      visit '/api/payments/new'
+    let(:signature) { 'LOL!' }
+
+    it 'returns no data' do
+      get '/api/payments/new', request_params
+      expect(last_response.status).to eq(404)
+      expect(last_response.body).to   eq('Error: Invalid signature')
     end
   end
 

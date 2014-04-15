@@ -13,3 +13,4 @@ Set `PSMS_INFO_URL` to URL 'where you can download your service information and 
 
     heroku config:set SECRET_KEY_BASE=`ruby -e 'require "securerandom"; print SecureRandom.hex(128)'`
     heroku config:set PSMS_INFO_URL=https://api.fortumo.com/api/services/2/xxx.yyy.xml
+    heroku config:set FORTUMO_SECRET=XXXYYYZZZ
