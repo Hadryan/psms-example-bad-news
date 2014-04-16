@@ -1,0 +1,11 @@
+<h1>Today's News</h1>
+
+<p>
+  Wellcome, <%= current_user.name %>. <br />
+  We have some BAD NEWS for you.
+</p>
+
+<% @news.each do |news| %>
+  <p><%= news.body %></p>
+  <hr />
+<% end %>

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'news/index'
+
   root 'landing#index'
 
   namespace :api do
@@ -6,5 +8,5 @@ Rails.application.routes.draw do
     resources :payments,        only: :new
   end
 
-  resource :landing, only: :index
+  resources :news, only: :index
 end
