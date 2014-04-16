@@ -8,6 +8,14 @@ class MobilePayment < BasePayment
                                  sender service_id shortcode sig status test
                                  }.uniq.freeze
 
+  class << self
+    private
+
+    def secret
+      Rails.application.secrets.mobile_api[:secret]
+    end
+  end
+
   def successful?
     is_mo? && is_status_ok? || is_mt? && !is_status_failed? || is_test_mode?
   end

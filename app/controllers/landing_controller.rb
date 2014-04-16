@@ -10,6 +10,6 @@ class LandingController < ApplicationController
   private
 
   def psms_info
-    @@psms_info ||= PSMSInformation.find(Rails.application.secrets.psms_info_url)
+    @@psms_info ||= PSMSInformation.find(Rails.application.secrets.mobile_api.psms_info_url)
   end
 end

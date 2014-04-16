@@ -5,7 +5,7 @@ describe 'Front page' do
   let(:service_info_xml) { File.read(File.join(Rails.root, 'spec', 'assets', 'service.information.xml')) }
 
   before do
-    FakeWeb.register_uri(:get, Rails.application.secrets.psms_info_url, body: service_info_xml)
+    FakeWeb.register_uri(:get, Rails.application.secrets.mobile_api.psms_info_url, body: service_info_xml)
   end
 
   describe 'News to Phone' do
@@ -26,7 +26,7 @@ describe 'Front page' do
 
   describe 'News on Web Page' do
     let(:current_user) { OpenStruct.new(id: 1) }
-    let(:service_id) { Rails.application.secrets.fortumo_1_click_service_id }
+    let(:service_id) { Rails.application.secrets.cross_platform_api.service_id }
     let(:rel) { [service_id, current_user.id].join('/') }
 
     before  do

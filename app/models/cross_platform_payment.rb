@@ -8,6 +8,14 @@ class CrossPlatformPayment < BasePayment
                                  revenue sender service_id sig status
                                  test user_share}.uniq.freeze
 
+  class << self
+    private
+
+    def secret
+      Rails.application.secrets.cross_platform_api.secret
+    end
+  end
+
   def successful?
     is_status_ok?
   end

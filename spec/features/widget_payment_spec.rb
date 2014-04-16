@@ -50,7 +50,7 @@ describe 'Widget Payment' do
   let(:revenue)         { '0.67' }
   let(:sender)          { '37251234567' }
   let(:service_id)      { '2c05823798f034d648c9fd8e81b39a7c' }
-  let(:signature)       { BasePayment.sign(request_params_no_signature) }
+  let(:signature)       { CrossPlatformPayment.sign(request_params_no_signature) }
   let(:status)          { 'completed' }
   let(:test)            { nil } # 'ok' is possible
   let(:user_share)      { '0.5' }

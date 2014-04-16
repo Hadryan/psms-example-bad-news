@@ -49,7 +49,7 @@ describe 'Payment' do
   let(:sender)        { '37256342863' }
   let(:service_id)    { '67324526784536747635672356723563' }
   let(:shortcode)     { '1311' }
-  let(:signature)     { BasePayment.sign(request_params_no_signature) }
+  let(:signature)     { MobilePayment.sign(request_params_no_signature) }
   let(:status)        { 'OK' }
   let(:test)          { nil }
 
