@@ -10,6 +10,6 @@ class User
   end
 
   def self.find(id)
-    ALL.select { |u| i.id == id }
+    ALL.find { |u| u.id == id.to_i }
   end
 end

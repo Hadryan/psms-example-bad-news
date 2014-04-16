@@ -8,7 +8,7 @@ describe 'Payment' do
     Rails.application
   end
 
-  let(:remote_addr)   { Payment::FORTUMO_SERVERS.sample }
+  let(:remote_addr)   { BasePayment::FORTUMO_SERVERS.sample }
   let(:extra_headers) { {'REMOTE_ADDR' => remote_addr} }
 
   let(:request_params) do
@@ -49,7 +49,7 @@ describe 'Payment' do
   let(:sender)        { '37256342863' }
   let(:service_id)    { '67324526784536747635672356723563' }
   let(:shortcode)     { '1311' }
-  let(:signature)     { Payment.sign(request_params_no_signature) }
+  let(:signature)     { BasePayment.sign(request_params_no_signature) }
   let(:status)        { 'OK' }
   let(:test)          { nil }
 

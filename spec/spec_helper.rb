@@ -40,10 +40,19 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+
     FakeWeb.allow_net_connect = false
   end
 
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
   config.after(:each) do
+    DatabaseCleaner.clean
+
     FakeWeb.clean_registry
   end
 end
