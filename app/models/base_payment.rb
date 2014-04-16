@@ -3,10 +3,6 @@ require 'digest/md5'
 # Base class for different types of mobile payments
 class BasePayment
 
-  # Set of valid HTTP request parameters. To be specified in
-  # child classes.
-  mattr_accessor :valid_request_params
-
   FORTUMO_SERVERS = %w{54.72.6.126 54.72.6.27 54.72.6.17 54.72.6.23
                        79.125.125.1 79.125.5.205 79.125.5.95}.freeze
 
@@ -65,10 +61,16 @@ class BasePayment
   private
 
   def initialize(params)
-    @params = params.slice(*self.class.valid_request_params)
+    @params = params.slice(*valid_request_params)
   end
 
   def signature
     self.class.sign(@params)
+  end
+
+  # Set of valid HTTP request parameters. To be specified in
+  # child classes.
+  def valid_request_params
+    raise NotImplementedError
   end
 end

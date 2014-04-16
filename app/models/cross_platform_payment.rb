@@ -3,11 +3,6 @@
 #
 # See: http://developers.fortumo.com/mobile-payments-for-web-apps/
 class CrossPlatformPayment < BasePayment
-  self.valid_request_params = %w{amount country credit_name cuid
-                                 currency operator payment_id price price_wo_vat
-                                 revenue sender service_id sig status
-                                 test user_share}.uniq.freeze
-
   class << self
     private
 
@@ -34,5 +29,14 @@ class CrossPlatformPayment < BasePayment
 
   def user_id
     @params[:cuid]
+  end
+
+  private
+
+  def valid_request_params
+    %w{amount country credit_name cuid
+       currency operator payment_id price price_wo_vat
+       revenue sender service_id sig status
+       test user_share}.uniq
   end
 end

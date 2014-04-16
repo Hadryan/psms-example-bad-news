@@ -3,11 +3,6 @@
 #
 # See: http://developers.fortumo.com/mobile-payments-api/
 class MobilePayment < BasePayment
-  self.valid_request_params = %w{billing_type country currency keyword
-                                 message message_id operator price price_wo_vat
-                                 sender service_id shortcode sig status test
-                                 }.uniq.freeze
-
   class << self
     private
 
@@ -34,5 +29,14 @@ class MobilePayment < BasePayment
 
   def is_mt?
     not is_mo?
+  end
+
+  private
+
+  def valid_request_params
+    %w{billing_type country currency keyword
+       message message_id operator price price_wo_vat
+       sender service_id shortcode sig status test
+       }.uniq
   end
 end
