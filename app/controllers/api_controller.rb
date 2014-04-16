@@ -1,9 +1,4 @@
 class ApiController < ApplicationController
-  # Child classes will have their 'specific' payment
-  # types to be processed. So we must set them in each
-  # of such controllers.
-  mattr_accessor :payment_class
-
   before_filter :check_payment_origin_server
   before_filter :check_payment_status, only: :new
   before_filter :check_payment_signature
@@ -25,13 +20,20 @@ class ApiController < ApplicationController
   end
 
   def check_payment_origin_server
-    unless self.class.payment_class.valid_server?(request.remote_ip)
+    unless payment_class.valid_server?(request.remote_ip)
       render text: 'Error: Access denied', status: :forbidden
       return false
     end
   end
 
   def payment
-    @payment ||= self.class.payment_class.new(params)
+    @payment ||= payment_class.new(params)
+  end
+
+  # Child classes will have their 'specific' payment
+  # types to be processed. So we must set them in each
+  # of such controllers.
+  def payment_class
+    raise NotImplementedError
   end
 end

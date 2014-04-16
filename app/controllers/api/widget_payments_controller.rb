@@ -1,6 +1,4 @@
 class Api::WidgetPaymentsController < ApiController
-  self.payment_class = CrossPlatformPayment
-
   def new
     amount       = payment.items_amount
     current_user = User.find(payment.user_id)
@@ -10,5 +8,11 @@ class Api::WidgetPaymentsController < ApiController
     UserNews.create!(records)
 
     render nothing: true
+  end
+
+  private
+
+  def payment_class
+    CrossPlatformPayment
   end
 end
