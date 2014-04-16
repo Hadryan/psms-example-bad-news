@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/denyago/psms-example-bad-news.svg?branch=master)](https://travis-ci.org/denyago/psms-example-bad-news)
+[![Code Climate](https://codeclimate.com/github/denyago/psms-example-bad-news.png)](https://codeclimate.com/github/denyago/psms-example-bad-news)
+
 # Fortumo Mobile Payments API Example
 
 The SMS service 'Bad News' will deliver you worst news if you
