@@ -12,7 +12,10 @@ class MobilePayment < BasePayment
   end
 
   def successful?
-    is_mo? && is_status_ok? || is_mt? && !is_status_failed? || is_test_mode?
+    is_mo? && is_status_ok? ||
+      is_mo? && is_status_pending? || # we need to send content anyway. Hope, they will pay.
+      is_mt? && !is_status_failed? ||
+      is_test_mode?
   end
 
   def is_status_failed?
@@ -21,6 +24,10 @@ class MobilePayment < BasePayment
 
   def is_status_ok?
     @params[:status].to_s.downcase == 'ok'
+  end
+
+  def is_status_pending?
+    @params[:status].to_s.downcase == 'pending'
   end
 
   def is_mo?
