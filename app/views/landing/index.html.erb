@@ -1,26 +1,80 @@
-<h1>Get some bad news</h1>
+<div class="header">
+  <h3 class="text-muted">Bad News</h3>
+</div>
 
-<h2>On your mobile</h2>
+<div class="jumbotron">
+  <h1>Get some bad news!</h1>
+  <p class="lead">If you are feeling very happy and want to feel sad, we're here for you. It will take one moment to make you really sad.</p>
+  <p><a class="btn btn-lg btn-success" href="#collapseOne" role="button">Make me sad!</a></p>
+</div>
 
-<% @countries.each do |country_name| %>
-  <hr />
-  In <%= country_name %>:<br />
-  Send "<%= @payment_details[country_name][:keyword] %>" to short number "<%= @payment_details[country_name][:shortcode] %>"
-  <table>
-    <tr>
-      <% @promotional_texts[country_name].each do |lang, text| %>
-        <td><%= raw text.gsub(/\n/, '<br />') %></td>
-      <% end %>
-    </tr>
-  </table>
-<% end %>
+<div class="panel-group" id="accordion">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+          <span class="glyphicon glyphicon-envelope"></span> SMS to your mobile phone
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in">
+      <div class="panel-body">
+        <table class="table table-bordered">
+          <% @countries.each do |country_name| %>
+            <tr><td>
+              <h4><%= country_name %></h4>
 
-<hr />
-
-<h2>Just here</h2>
-
-<a id="fmp-button" href="#" rel="<%= Rails.application.secrets.cross_platform_api.service_id %>/<%= @user.id %>">
-  <img src="http://fortumo.com/images/fmp/fortumopay_96x47.png" width="96" height="47" alt="Mobile Payments by Fortumo" border="0" />
-</a>
+              <table class="table table-condensed">
+                <thead>
+                  <tr><th>
+                    Send "<%= @payment_details[country_name][:keyword] %>"
+                    to short number "<%= @payment_details[country_name][:shortcode] %>"
+                  </tr></th>
+                <thead>
+                <tbody>
+                  <% @promotional_texts[country_name].each do |lang, text| %>
+                    <tr><td>
+                      <%= raw text.gsub(/\n/, '<br />') %>
+                    </td></tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </td></tr>
+          <% end %>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+          <span class="glyphicon glyphicon-globe"></span> In your browser
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse">
+      <div class="panel-body">
+        <a id="fmp-button" href="#" rel="<%= Rails.application.secrets.cross_platform_api.service_id %>/<%= @user.id %>">
+          <img src="http://fortumo.com/images/fmp/fortumopay_96x47.png" width="96" height="47" alt="Mobile Payments by Fortumo" border="0" />
+        </a>
+       </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+          <span class="glyphicon glyphicon-phone"></span> In your smatrphone
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse">
+      <div class="panel-body">
+        Sorry. Under development.
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="http://fortumo.com/javascripts/fortumopay.js" type="text/javascript"></script>

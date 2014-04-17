@@ -1,11 +1,22 @@
-<h1>Today's News</h1>
+<h1>Today's Bad News</h1>
 
-<p>
-  Wellcome, <%= current_user.name %>. <br />
-  We have some BAD NEWS for you.
-</p>
-
-<% @news.each do |news| %>
-  <p><%= news.body %></p>
-  <hr />
-<% end %>
+<table class="table table-condensed">
+  <thead>
+    <tr><th>
+      Wellcome, <%= current_user.name %>. <br />
+    </tr></th>
+  <thead>
+  <tbody>
+    <% if @news.empty? %>
+      <tr><td>
+        Good! We don't have any news for you. <a href="/"><span class="glyphicon glyphicon-euro"></span> Buy some</a>
+      </td></tr>
+    <% else %>
+      <% @news.each do |news| %>
+        <tr><td>
+          <%= news.body %>
+        </td></tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
